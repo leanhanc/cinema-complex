@@ -1,0 +1,27 @@
+html[data-theme='dark'] {
+	--theme-bg-color: #00122b;
+	--theme-bg: #00122b;
+	--theme-elevation-0: #00122b;
+	--theme-elevation-50: #001838;
+	--theme-elevation-100: #33568544;
+	--theme-elevation-800: #B0BED0;
+}
+
+.nav-group__content {
+	padding-bottom: 2rem;
+}
+
+.nav-group__toggle {
+	color: #b0bed0;
+	font-weight: 600;
+	font-size: 16px;
+}
+
+.nav__link-label {
+	font-size: 14px;
+	margin-top: 2px;
+}
+
+.nav__link-label:first-child {
+	margin-top: 0;
+}

@@ -1,0 +1,17 @@
+@import 'tailwindcss';
+
+@import './utility.css';
+
+@theme {
+    --color-*: initial;
+
+    /* Blue */
+    --color-blue-500: #002C66;
+    --color-blue-600: #00285D;
+    --color-blue-800: #001838;
+
+    /* Neutral */
+    --color-neutral-500: #F4F6FA
+}
+
+
