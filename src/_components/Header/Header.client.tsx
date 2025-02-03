@@ -16,12 +16,12 @@ import Link from '@/_components/Link';
 
 interface HeaderClientProps {
 	headerData: Header;
-	globalData: Customization;
+	customizationData: Customization;
 }
 
 export default function HeaderClient({
 	headerData,
-	globalData,
+	customizationData,
 }: HeaderClientProps) {
 	const { isMobileMenuOpen, shouldShowGoBackIcon, setIsMobileMenuOpen } =
 		useHeaderContext();
@@ -30,7 +30,7 @@ export default function HeaderClient({
 		<>
 			{/* Mobile Icons */}
 			<button
-				className="relative right-2 mr-2 flex appearance-none items-center justify-center gap-6"
+				className="relative right-2 mr-2 flex appearance-none items-center justify-center gap-6 md:hidden"
 				onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
 			>
 				{shouldShowGoBackIcon ? (
@@ -51,17 +51,19 @@ export default function HeaderClient({
 			</button>
 
 			{/* Logo */}
-			{globalData.logo && isMedia(globalData.logo) && globalData.logo.url && (
-				<div className="mr-auto flex-1">
-					<NextImage
-						src={globalData.logo.url}
-						alt={globalData.logo.alt}
-						width={180}
-						height={44}
-						className="h-[36px] w-[148px] md:h-[44px] md:w-[180px]"
-					/>
-				</div>
-			)}
+			{customizationData.logo &&
+				isMedia(customizationData.logo) &&
+				customizationData.logo.url && (
+					<div className="mr-auto flex-1">
+						<NextImage
+							src={customizationData.logo.url}
+							alt={customizationData.logo.alt}
+							width={180}
+							height={44}
+							className="h-[36px] w-[148px] md:h-[44px] md:w-[180px]"
+						/>
+					</div>
+				)}
 
 			{/* Desktop Nav */}
 			<ul className="hidden items-center justify-center gap-4 md:flex">

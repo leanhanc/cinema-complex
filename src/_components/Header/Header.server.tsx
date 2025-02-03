@@ -1,4 +1,8 @@
+import { Suspense } from 'react';
 import { unstable_cacheTag as cacheTag } from 'next/cache';
+
+/* Types */
+import type { Customization } from '@/payload-types';
 
 /* Components */
 import HeaderClientComponent from './Header.client';
@@ -12,36 +16,30 @@ async function getHeaderData() {
 
 	const payload = await getPayloadLocalApi();
 
-	const headerDataPromise = payload.findGlobal({
+	const headerData = await payload.findGlobal({
 		slug: 'header',
 		draft: false,
 	});
 
-	const globalDataPromise = payload.findGlobal({
-		slug: 'customization',
-		draft: false,
-	});
-
-	const [headerData, globalData] = await Promise.all([
-		headerDataPromise,
-		globalDataPromise,
-	]);
-
-	return { headerData, globalData };
+	return { headerData };
 }
 
-export default async function Header() {
-	const { headerData, globalData } = await getHeaderData();
-
-	console.log(headerData);
+export default async function Header({
+	customizationData,
+}: {
+	customizationData: Customization;
+}) {
+	const { headerData } = await getHeaderData();
 
 	return (
 		<header className="bg-blue-800">
 			<div className="container flex h-20 flex-row items-center justify-between py-4">
-				<HeaderClientComponent
-					headerData={headerData}
-					globalData={globalData}
-				/>
+				<Suspense fallback={<div>Loading...</div>}>
+					<HeaderClientComponent
+						headerData={headerData}
+						customizationData={customizationData}
+					/>
+				</Suspense>
 			</div>
 		</header>
 	);

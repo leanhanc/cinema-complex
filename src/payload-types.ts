@@ -156,7 +156,7 @@ export interface Page {
     /**
      * If checked, the header will be shown on this page.
      */
-    shouldShowHeader?: boolean | null;
+    shouldShowNavigation?: boolean | null;
     /**
      * If checked, the footer will be shown on this page.
      */
@@ -304,7 +304,7 @@ export interface PagesSelect<T extends boolean = true> {
   settings?:
     | T
     | {
-        shouldShowHeader?: T;
+        shouldShowNavigation?: T;
         shouldShowFooter?: T;
       };
   meta?:

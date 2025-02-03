@@ -1,5 +1,5 @@
 import { draftMode } from 'next/headers';
-import { unstable_cacheTag as cacheTag } from 'next/cache';
+// import { unstable_cacheTag as cacheTag } from 'next/cache';
 
 /* Utils */
 import { getPayloadLocalApi } from '@/app/(payload)/utils/getPayloadLocalApi';

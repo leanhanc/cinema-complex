@@ -85,7 +85,7 @@ export const Pages: CollectionConfig = {
 						'Customize which global components are shown on this page.',
 					fields: [
 						{
-							name: 'shouldShowHeader',
+							name: 'shouldShowNavigation',
 							type: 'checkbox',
 							label: 'Show Header',
 							defaultValue: true,

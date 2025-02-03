@@ -7,6 +7,7 @@ import '@/lib/styles/theme.css';
 /* Components */
 import LoadingScreen from '@/_components/LoadingScreen';
 import Header from '@/_components/Header/Header.server';
+import Drawer from '@/_components/Drawer/Drawer';
 
 /* Providers */
 import GlobalsValidator from '@/lib/providers/GlobalsValidator';
@@ -41,6 +42,11 @@ async function LayoutContent({
 		},
 	});
 
+	const customizationData = await payload.findGlobal({
+		slug: 'customization',
+		draft: false,
+	});
+
 	if (!pageSettings.docs.length) {
 		return notFound();
 	}
@@ -50,9 +56,16 @@ async function LayoutContent({
 	return (
 		<GlobalsValidator>
 			<HeaderContextProvider>
-				{settings?.shouldShowHeader && <Header />}
-				{children}
-				{settings?.shouldShowFooter && <footer>Footer</footer>}
+				<Suspense fallback={<div>Loading...</div>}>
+					{settings?.shouldShowNavigation && (
+						<>
+							<Header customizationData={customizationData} />
+							<Drawer customizationData={customizationData} />
+						</>
+					)}
+					{children}
+					{settings?.shouldShowFooter && <footer>Footer</footer>}
+				</Suspense>
 			</HeaderContextProvider>
 		</GlobalsValidator>
 	);
