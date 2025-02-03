@@ -6,13 +6,13 @@ import '@/lib/styles/theme.css';
 
 /* Components */
 import LoadingScreen from '@/_components/LoadingScreen';
-import Header from '@/_components/Header';
+import Header from '@/_components/Header/Header.server';
 
 /* Providers */
 import GlobalsValidator from '@/lib/providers/GlobalsValidator';
 
 /* Utils */
-import { getPayloadLocalApi } from '@/lib/utils/payload';
+import { getPayloadLocalApi } from '@/app/(payload)/utils/getPayloadLocalApi';
 
 /* Context */
 import HeaderContextProvider from '@/lib/context/HeaderContext';

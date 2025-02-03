@@ -70,7 +70,7 @@ export default function HeaderClient({
 					headerData.navItems.map((navItem) => {
 						return (
 							<li key={navItem.link.label}>
-								<Link {...navItem.link}>{navItem.link.label}</Link>
+								<Link {...navItem.link} />
 							</li>
 						);
 					})}

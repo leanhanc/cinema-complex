@@ -4,7 +4,8 @@ import type { Metadata } from 'next';
 import type { Page } from '@/payload-types';
 
 /* Utils */
-import { getPayloadLocalApi, getServerSideURL } from '@/lib/utils/payload';
+import { getPayloadLocalApi } from '@/app/(payload)/utils/getPayloadLocalApi';
+import { getServerSideURL } from '@/app/(payload)/utils/getServerSideUrl';
 
 // TODO: USE GLOBAL
 const defaultOpenGraph: Metadata['openGraph'] = {

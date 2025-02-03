@@ -26,7 +26,7 @@ import type { GenerateURL } from '@payloadcms/plugin-seo/types';
 import type { Page } from './payload-types';
 
 /* Utils */
-import { getServerSideURL } from '@/lib/utils/payload';
+import { getServerSideURL } from './app/(payload)/utils/getServerSideUrl';
 
 const filename = fileURLToPath(import.meta.url);
 const dirname = path.dirname(filename);

@@ -1,5 +1,5 @@
 /* Utils */
-import { validateRequiredGlobals } from '@/lib/utils/payload';
+import { validateRequiredGlobals } from '@/app/(payload)/utils/validateRequiredGlobals';
 
 /* Components */
 import LoadingScreen from '@/_components/LoadingScreen';

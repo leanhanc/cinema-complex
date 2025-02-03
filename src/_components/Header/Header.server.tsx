@@ -4,7 +4,7 @@ import { unstable_cacheTag as cacheTag } from 'next/cache';
 import HeaderClientComponent from './Header.client';
 
 /* Types */
-import { getPayloadLocalApi } from '@/lib/utils/payload';
+import { getPayloadLocalApi } from '@/app/(payload)/utils/getPayloadLocalApi';
 
 async function getHeaderData() {
 	'use cache';
@@ -32,6 +32,8 @@ async function getHeaderData() {
 
 export default async function Header() {
 	const { headerData, globalData } = await getHeaderData();
+
+	console.log(headerData);
 
 	return (
 		<header className="bg-blue-800">

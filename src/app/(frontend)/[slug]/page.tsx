@@ -2,7 +2,7 @@ import { draftMode } from 'next/headers';
 import { unstable_cacheTag as cacheTag } from 'next/cache';
 
 /* Utils */
-import { getPayloadLocalApi } from '@/lib/utils/payload';
+import { getPayloadLocalApi } from '@/app/(payload)/utils/getPayloadLocalApi';
 import { generateMeta } from '@/lib/utils/metadata';
 
 /* Types */
