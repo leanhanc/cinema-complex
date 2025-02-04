@@ -13,6 +13,7 @@ import type { Header, Customization } from '@/payload-types';
 
 /* Components */
 import Link from '@/_components/Link';
+import Backdrop from '@/_components/Backdrop';
 
 interface HeaderClientProps {
 	headerData: Header;
@@ -30,19 +31,19 @@ export default function HeaderClient({
 		<>
 			{/* Mobile Icons */}
 			<button
-				className="relative right-2 mr-2 flex appearance-none items-center justify-center gap-6 md:hidden"
+				className="relative right-2 mr-2 flex appearance-none items-center justify-center gap-6"
 				onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
 			>
 				{shouldShowGoBackIcon ? (
 					<NextImage
-						src="icons/arrow-back.svg"
+						src="/icons/arrow-back.svg"
 						alt="back"
 						width={36}
 						height={36}
 					/>
 				) : (
 					<NextImage
-						src="icons/hamburger.svg"
+						src="/icons/hamburger.svg"
 						alt="menu"
 						width={36}
 						height={36}
@@ -72,7 +73,7 @@ export default function HeaderClient({
 					headerData.navItems.map((navItem) => {
 						return (
 							<li key={navItem.link.label}>
-								<Link {...navItem.link} />
+								<Link {...navItem.link}>{navItem.link.label}</Link>
 							</li>
 						);
 					})}
@@ -80,9 +81,12 @@ export default function HeaderClient({
 
 			{/* Desktop User Icons */}
 			<div className="ml-auto hidden flex-1 items-center justify-end gap-6 md:flex">
-				<NextImage src="icons/tickets.svg" alt="user" width={24} height={22} />
-				<NextImage src="icons/user.svg" alt="user" width={24} height={24} />
+				<NextImage src="/icons/tickets.svg" alt="user" width={24} height={22} />
+				<NextImage src="/icons/user.svg" alt="user" width={24} height={24} />
 			</div>
+
+			{/* Backdrop */}
+			<Backdrop isVisible={isMobileMenuOpen} />
 		</>
 	);
 }

@@ -11,7 +11,7 @@ import type { Metadata } from 'next';
 export default function Page() {
 	return (
 		<main className="container">
-			<h1>Hello World slug</h1>
+			<h1 className="text-right">Hello World slug</h1>
 		</main>
 	);
 }

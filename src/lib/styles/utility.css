@@ -5,3 +5,16 @@
    margin-right: auto;
   }
   
+  @utility transition-left {
+   0% {
+      transform: translateX(-80%)
+  }
+
+  to {
+      transform: translateX(0)
+  }
+}
+
+.animate-transition-left {
+   animation: transition-left .4s cubic-bezier(.2,0,0,1) 1
+}

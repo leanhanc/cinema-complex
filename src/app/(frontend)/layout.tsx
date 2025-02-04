@@ -1,5 +1,6 @@
-import { notFound } from 'next/navigation';
 import { Suspense, type ReactNode } from 'react';
+import { notFound } from 'next/navigation';
+import { unstable_cacheTag as cacheTag } from 'next/cache';
 
 /* Styles */
 import '@/lib/styles/theme.css';
@@ -18,15 +19,22 @@ import { getPayloadLocalApi } from '@/app/(payload)/utils/getPayloadLocalApi';
 /* Context */
 import HeaderContextProvider from '@/lib/context/HeaderContext';
 
-async function LayoutContent({
-	children,
-	params,
-}: {
-	children: ReactNode;
-	params: Promise<{ slug: string }>;
-}) {
+async function getHeaderData() {
+	'use cache';
+	cacheTag('header');
+
 	const payload = await getPayloadLocalApi();
-	const slug = (await params).slug || 'home';
+
+	const headerData = await payload.findGlobal({
+		slug: 'header',
+		draft: false,
+	});
+
+	return headerData;
+}
+
+async function getPageSettings(slug: string) {
+	const payload = await getPayloadLocalApi();
 
 	const pageSettings = await payload.find({
 		collection: 'pages',
@@ -42,16 +50,42 @@ async function LayoutContent({
 		},
 	});
 
-	const customizationData = await payload.findGlobal({
+	if (!pageSettings.docs.length) {
+		return null;
+	}
+
+	return pageSettings.docs[0];
+}
+
+async function getCustomizationData() {
+	const payload = await getPayloadLocalApi();
+
+	return payload.findGlobal({
 		slug: 'customization',
 		draft: false,
 	});
+}
 
-	if (!pageSettings.docs.length) {
+async function LayoutContent({
+	children,
+	params,
+}: {
+	children: ReactNode;
+	params: Promise<{ slug: string }>;
+}) {
+	const slug = (await params).slug || 'home';
+
+	const [headerData, pageSettings, customizationData] = await Promise.all([
+		getHeaderData(),
+		getPageSettings(slug),
+		getCustomizationData(),
+	]);
+
+	if (!pageSettings) {
 		return notFound();
 	}
 
-	const { settings } = pageSettings.docs[0];
+	const { settings } = pageSettings;
 
 	return (
 		<GlobalsValidator>
@@ -59,8 +93,11 @@ async function LayoutContent({
 				<Suspense fallback={<div>Loading...</div>}>
 					{settings?.shouldShowNavigation && (
 						<>
-							<Header customizationData={customizationData} />
-							<Drawer customizationData={customizationData} />
+							<Header
+								headerData={headerData}
+								customizationData={customizationData}
+							/>
+							<Drawer headerData={headerData} />
 						</>
 					)}
 					{children}
