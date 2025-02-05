@@ -112,12 +112,9 @@ export const Pages: CollectionConfig = {
 					label: 'SEO',
 					fields: [
 						OverviewField({
-							titlePath: 'meta.title',
+							titlePath: 'title',
 							descriptionPath: 'meta.description',
 							imagePath: 'meta.image',
-						}),
-						MetaTitleField({
-							hasGenerateFn: true,
 						}),
 						MetaImageField({
 							relationTo: 'media',
@@ -125,7 +122,7 @@ export const Pages: CollectionConfig = {
 						MetaDescriptionField({}),
 						PreviewField({
 							hasGenerateFn: true,
-							titlePath: 'meta.title',
+							titlePath: 'title',
 							descriptionPath: 'meta.description',
 						}),
 					],

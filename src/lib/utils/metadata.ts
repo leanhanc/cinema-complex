@@ -38,8 +38,8 @@ export const generateMeta = async (args: {
 		slug: 'customization',
 	});
 
-	const title = doc?.meta?.title
-		? `${doc.meta.title} | ${globalData.complexName ?? 'Cinema Complex'}`
+	const title = doc?.title
+		? `${doc.title} | ${globalData.complexName ?? 'Cinema Complex'}`
 		: (globalData.complexName ?? 'Cinema Complex');
 
 	return {

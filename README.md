@@ -32,16 +32,6 @@ A white label cinema booking and administration platform built with Next.js and 
 - ESLint and Prettier configuration
 - VSCode debugging support
 
-## 🚀 Features
-
-- Modern Next.js 15 application
-- PostgreSQL database integration
-- GraphQL API
-- TypeScript support
-- Tailwind CSS styling
-- ESLint and Prettier configuration
-- VSCode debugging support
-
 ## 🛠️ Prerequisites
 
 - Node.js (^18.20.2 || >=20.9.0)
