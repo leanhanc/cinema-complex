@@ -31,7 +31,7 @@ export default function HeaderClient({
 		<>
 			{/* Mobile Icons */}
 			<button
-				className="relative right-2 mr-2 flex appearance-none items-center justify-center gap-6"
+				className="relative right-2 mr-2 flex appearance-none items-center justify-center gap-6 md:hidden"
 				onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
 			>
 				{shouldShowGoBackIcon ? (
@@ -73,7 +73,7 @@ export default function HeaderClient({
 					headerData.navItems.map((navItem) => {
 						return (
 							<li key={navItem.link.label}>
-								<Link {...navItem.link}>{navItem.link.label}</Link>
+								<Link {...navItem.link} />
 							</li>
 						);
 					})}

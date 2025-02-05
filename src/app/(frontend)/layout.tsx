@@ -1,39 +1,24 @@
 import { Suspense, type ReactNode } from 'react';
 import { notFound } from 'next/navigation';
-import { unstable_cacheTag as cacheTag } from 'next/cache';
 
 /* Styles */
 import '@/lib/styles/theme.css';
 
 /* Components */
 import LoadingScreen from '@/_components/LoadingScreen';
-import Header from '@/_components/Header/Header.server';
-import Drawer from '@/_components/Drawer/Drawer';
+import HeaderNav from '@/_components/Header/HeaderNav.server';
+import DrawerNav from '@/_components/Drawer/DrawerNav.server';
 
 /* Providers */
 import GlobalsValidator from '@/lib/providers/GlobalsValidator';
 
-/* Utils */
-import { getPayloadLocalApi } from '@/app/(payload)/utils/getPayloadLocalApi';
-
 /* Context */
 import HeaderContextProvider from '@/lib/context/HeaderContext';
 
-async function getHeaderData() {
-	'use cache';
-	cacheTag('header');
+/* Utils */
+import { getPayloadLocalApi } from '@/app/(payload)/utils/getPayloadLocalApi';
 
-	const payload = await getPayloadLocalApi();
-
-	const headerData = await payload.findGlobal({
-		slug: 'header',
-		draft: false,
-	});
-
-	return headerData;
-}
-
-async function getPageSettings(slug: string) {
+async function PageContent({ slug }: { slug: string }) {
 	const payload = await getPayloadLocalApi();
 
 	const pageSettings = await payload.find({
@@ -51,70 +36,64 @@ async function getPageSettings(slug: string) {
 	});
 
 	if (!pageSettings.docs.length) {
-		return null;
-	}
-
-	return pageSettings.docs[0];
-}
-
-async function getCustomizationData() {
-	const payload = await getPayloadLocalApi();
-
-	return payload.findGlobal({
-		slug: 'customization',
-		draft: false,
-	});
-}
-
-async function LayoutContent({
-	children,
-	params,
-}: {
-	children: ReactNode;
-	params: Promise<{ slug: string }>;
-}) {
-	const slug = (await params).slug || 'home';
-
-	const [headerData, pageSettings, customizationData] = await Promise.all([
-		getHeaderData(),
-		getPageSettings(slug),
-		getCustomizationData(),
-	]);
-
-	if (!pageSettings) {
 		return notFound();
 	}
 
-	const { settings } = pageSettings;
+	const { settings } = pageSettings.docs[0];
 
+	return settings;
+}
+
+function LayoutContent({
+	children,
+	slug,
+}: {
+	children: ReactNode;
+	slug: string;
+}) {
 	return (
 		<GlobalsValidator>
 			<HeaderContextProvider>
-				<Suspense fallback={<div>Loading...</div>}>
-					{settings?.shouldShowNavigation && (
-						<>
-							<Header
-								headerData={headerData}
-								customizationData={customizationData}
-							/>
-							<Drawer headerData={headerData} />
-						</>
-					)}
-					{children}
-					{settings?.shouldShowFooter && <footer>Footer</footer>}
+				<Suspense fallback={<div className="h-20 bg-blue-800" />}>
+					<AsyncLayoutContent slug={slug}>{children}</AsyncLayoutContent>
 				</Suspense>
 			</HeaderContextProvider>
 		</GlobalsValidator>
 	);
 }
 
-export default function RootLayout({
+async function AsyncLayoutContent({
+	children,
+	slug,
+}: {
+	children: ReactNode;
+	slug: string;
+}) {
+	const settings = await PageContent({ slug });
+
+	return (
+		<>
+			{settings?.shouldShowNavigation && (
+				<>
+					<HeaderNav />
+					<DrawerNav />
+				</>
+			)}
+			{children}
+			{settings?.shouldShowFooter && <footer>Footer</footer>}
+		</>
+	);
+}
+
+export default async function RootLayout({
 	children,
 	params,
 }: {
 	children: ReactNode;
 	params: Promise<{ slug: string }>;
 }) {
+	const slug = await params.then((p) => p.slug || 'home');
+
 	return (
 		<html lang="en">
 			<head>
@@ -122,7 +101,7 @@ export default function RootLayout({
 			</head>
 			<body className="bg-blue-600 text-neutral-500">
 				<Suspense fallback={<LoadingScreen />}>
-					<LayoutContent params={params}>{children}</LayoutContent>
+					<LayoutContent slug={slug}>{children}</LayoutContent>
 				</Suspense>
 			</body>
 		</html>

@@ -1,4 +1,5 @@
 'use client';
+import { useRef, type ReactNode } from 'react';
 
 /* Utils */
 import { cn } from '@/lib/utils/tailwind';
@@ -7,17 +8,16 @@ import { cn } from '@/lib/utils/tailwind';
 import { useHeaderContext } from '@/lib/context/HeaderContext';
 
 /* Components */
-import Link from '@/_components/Link';
 import Backdrop from '@/_components/Backdrop';
 
 /* Hooks */
-import { useRef } from 'react';
 import { useOnClickOutside } from '@/lib/hooks/useOnClickOutside';
 
-/* Types */
-import type { Header } from '@/payload-types';
+interface DrawerProps {
+	children: ReactNode;
+}
 
-export default function Drawer({ headerData }: { headerData?: Header }) {
+export default function Drawer({ children }: DrawerProps) {
 	/* Context */
 	const { isMobileMenuOpen, setIsMobileMenuOpen } = useHeaderContext();
 
@@ -44,17 +44,7 @@ export default function Drawer({ headerData }: { headerData?: Header }) {
 					isMobileMenuOpen ? 'translate-x-0' : '-translate-x-full',
 				)}
 			>
-				<ul className="flex h-full w-full flex-col">
-					{headerData?.navItems &&
-						headerData.navItems.length > 0 &&
-						headerData.navItems.map((navItem) => {
-							return (
-								<li key={navItem.link.label}>
-									<Link {...navItem.link} />
-								</li>
-							);
-						})}
-				</ul>
+				<ul className="flex h-full w-full flex-col">{children}</ul>
 			</nav>
 		</>
 	);
